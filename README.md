@@ -15,5 +15,5 @@ Before running this bot you must have the
 
 ## Data Source
 
-Data is from ![KuroganeHammer](http://kuroganehammer.com/Ultimate) using
-![FrannHammer](https://github.com/Frannsoft/FrannHammer) API
+Data is from [KuroganeHammer](http://kuroganehammer.com/Ultimate) using
+[FrannHammer](https://github.com/Frannsoft/FrannHammer) API
