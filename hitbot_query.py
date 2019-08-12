@@ -4,8 +4,8 @@ import json
 import urllib.request
 
 def GetFrameData(fighter_name, move_search):
-    fighter_name = fighter_name.capitalize()
-    move_search = move_search.capitalize()
+    fighter_name = fighter_name.title().replace(" ", "%20")
+    move_search = move_search.title()
     # Check if HitboxActive is null (for moves like throws)
     try:
         url = urllib.request.urlopen(
@@ -34,6 +34,7 @@ def GetFrameData(fighter_name, move_search):
         if url_error.code == 404:
             frame_data = 'Character not found'
         else:
+            print("URL Error code:", url_error.code)
             frame_data = 'Error fetching data'
 
     return frame_data
