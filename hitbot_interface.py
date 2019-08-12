@@ -38,9 +38,7 @@ async def frames(ctx, *, char_and_move: str):
 
     frame_data = hitbot_query.GetFrameData(fighter_name, move_search)
 
-    move_name = frame_data[0][0]
-
-    title_string = '**' + move_name + '**'
+    title_string = '**' + FormatField(0, frame_data) + '**'
     embed = discord.Embed(title=title_string,
             colour=discord.Colour(0x1e8488))
 
@@ -48,14 +46,17 @@ async def frames(ctx, *, char_and_move: str):
             "http://kuroganehammer.com/images/ultimate/character/"
             + fighter_name + ".png")
 
-    embed.add_field(name="Active Frames", value="10-12", inline=True)
-    embed.add_field(name="Shield Advantage", value="-4", inline=True)
-    embed.add_field(name="Damage", value="20.4/22.2/20.4", inline=True)
-    embed.add_field(name="Angle", value="361", inline=True)
-    embed.add_field(name="Base Knockback", value="40", inline=True)
-    embed.add_field(name="Knockback Growth", value="86", inline=True)
+    embed.add_field(name="Active Frames", value=FormatField(1, frame_data), inline=True)
+    embed.add_field(name="Shield Advantage", value=FormatField(2, frame_data), inline=True)
+    embed.add_field(name="Damage", value=FormatField(3, frame_data), inline=True)
+    embed.add_field(name="Angle", value=FormatField(4, frame_data), inline=True)
+    embed.add_field(name="Base Knockback", value=FormatField(5, frame_data), inline=True)
+    embed.add_field(name="Knockback Growth", value=FormatField(6, frame_data), inline=True)
 
     await ctx.send(embed=embed)
+
+def FormatField(index, frame_data):
+    return ' → '.join([item[index] for item in frame_data])
 
 
 BOT.run('TOKEN')
