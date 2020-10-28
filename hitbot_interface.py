@@ -55,7 +55,7 @@ async def frames(ctx, *, char_and_move: str):
     else:
         embed = discord.Embed(title='**Error**',
                 colour=discord.Colour(0x1e8488))
-        embed.add_field(name="404", value='Could not find character, please chack https://kuroganehammer.com/Ultimate/ for the current list of characters', inline=True)
+        embed.add_field(name="404", value='Could not find fighter, please check https://kuroganehammer.com/Ultimate/ for the current list of fighters', inline=True)
 
     await ctx.send(embed=embed)
 
