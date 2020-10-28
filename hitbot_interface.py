@@ -15,10 +15,9 @@ async def on_ready():
     print(BOT.user.id)
     print('------')
     # game = discord.Game('hb!help for command list')
-    game = discord.Game('Alpha build: don\'t touch!')
+    game = discord.Game('Alpha build: play nice!')
     await BOT.change_presence(status=discord.Status.online, activity=game)
 
-# TODO account for multiword character names, potentially split on a -
 # TODO finish generalizing embed generator
 # TODO account for multiple moves (bair early, bair late etc)
 # TODO account for moves like throws where hitbox is null
@@ -26,10 +25,9 @@ async def on_ready():
 # TODO add movement data
 # TODO add docstrings for each command
 
-# Adds a course to the spreadsheet
 @BOT.command()
 async def frames(ctx, *, char_and_move: str):
-    words = char_and_move.split('-')
+    words = char_and_move.split(' ')
     fighter_name = str(words[0]).strip()
     move_search = str(words[1]).strip()
 
@@ -37,21 +35,27 @@ async def frames(ctx, *, char_and_move: str):
     print("Move:", move_search)
 
     frame_data = hitbot_query.GetFrameData(fighter_name, move_search)
+    print(frame_data)
 
-    title_string = '**' + FormatField(0, frame_data) + '**'
-    embed = discord.Embed(title=title_string,
-            colour=discord.Colour(0x1e8488))
+    if (frame_data != '404'):
+        title_string = '**' + FormatField(0, frame_data) + '**'
+        embed = discord.Embed(title=title_string,
+                colour=discord.Colour(0x1e8488))
 
-    embed.set_image(url=
-            "http://kuroganehammer.com/images/ultimate/character/"
-            + fighter_name + ".png")
+        embed.set_image(url=
+                "http://kuroganehammer.com/images/ultimate/character/"
+                + fighter_name + ".png")
 
-    embed.add_field(name="Active Frames", value=FormatField(1, frame_data), inline=True)
-    embed.add_field(name="Shield Advantage", value=FormatField(2, frame_data), inline=True)
-    embed.add_field(name="Damage", value=FormatField(3, frame_data), inline=True)
-    embed.add_field(name="Angle", value=FormatField(4, frame_data), inline=True)
-    embed.add_field(name="Base Knockback", value=FormatField(5, frame_data), inline=True)
-    embed.add_field(name="Knockback Growth", value=FormatField(6, frame_data), inline=True)
+        embed.add_field(name="Active Frames", value=FormatField(1, frame_data), inline=True)
+        embed.add_field(name="Shield Advantage", value=FormatField(2, frame_data), inline=True)
+        embed.add_field(name="Damage", value=FormatField(3, frame_data), inline=True)
+        embed.add_field(name="Angle", value=FormatField(4, frame_data), inline=True)
+        embed.add_field(name="Base Knockback", value=FormatField(5, frame_data), inline=True)
+        embed.add_field(name="Knockback Growth", value=FormatField(6, frame_data), inline=True)
+    else:
+        embed = discord.Embed(title='**Error**',
+                colour=discord.Colour(0x1e8488))
+        embed.add_field(name="404", value='Could not find character, please chack https://kuroganehammer.com/Ultimate/ for the current list of characters', inline=True)
 
     await ctx.send(embed=embed)
 
